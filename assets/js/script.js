@@ -10,19 +10,53 @@ $(document).ready(function () {
         method: "get",
         success: function (data) {
             data.data.forEach(element => {
-                
-                
+                $(".todayDate").text(`${localday}/${localmonth}/${localyear}`)
+                $("h3").text(`Prayer Times in ${timezone[1]}`);
                     if (element.date.readable.slice(0, 2) == localday) {
-                        
+
                         $(".fdate").text(element.timings.Fajr.slice(0, 6));
                         $(".sdate").text(element.timings.Sunrise.slice(0, 6));
                         $(".ddate").text(element.timings.Dhuhr.slice(0, 6));
                         $(".adate").text(element.timings.Asr.slice(0, 6));
                         $(".mdate").text(element.timings.Maghrib.slice(0, 6));
                         $(".idate").text(element.timings.Isha.slice(0, 6));
+                      
                     }
+                   
+                    
+                console.log();
+
+
+                    var countDownDate = element.timings.Asr;
+
+
+                    var x = setInterval(function () {
                 
+                        var now = new Date().getTime();
                 
+                        var distance = countDownDate - now;
+                
+                        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                        document.getElementById("neqederqalib").innerHTML = minutes;
+                        console.log(countDownDate);
+                
+                        
+                    }, 1000);
+
+
+
+
+
+
+
+
+
+
+
 
                 let tr =
                     `
@@ -54,6 +88,7 @@ $(document).ready(function () {
             success: function (data) {
                 $("tbody").html("");
                 localTime(city);
+                $("h3").text(`Prayer Times in ${city.charAt(0).toUpperCase() + city.slice(1)}`);
                 data.data.forEach(element => {
                     
 
@@ -66,7 +101,10 @@ $(document).ready(function () {
                         $(".mdate").text(element.timings.Maghrib.slice(0, 6));
                         $(".idate").text(element.timings.Isha.slice(0, 6));
                     }
-                   
+                    
+                        
+                       
+                    
                     let tr =
                         `
                         <tr>
