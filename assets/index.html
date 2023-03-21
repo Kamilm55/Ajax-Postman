@@ -13,11 +13,16 @@
         <div class="row">
     
             <h3>Prayer times in </h3>
-            <input type="text" class="w-25 mt-5 mb-5" id="city">
-            <input type="month" class="w-25 mt-5 mb-5" id="date">
-            <button class="w-25 mb-5">Search</button>
+            <div class="row">
+                <input type="text" class="w-25 mt-5 mb-5" id="city">
+                <input type="month" class="w-25 mt-5 mb-5" id="date">
+                <button class="w-25 mt-5 ms-2" style="height: 30px;">Search</button>
+            </div>
 
-            <span id="neqederqalib"></span>
+            <div class="counterLive">Next prayer time: 
+                <span id="prayerTimeName"></span> 
+                <span id="neqederqalib"></span>
+            </div>
             
             <div class="col-md-8">
                 <div class="row">
@@ -78,10 +83,22 @@
 
 </html>
 <!-- <div class="row prayerTimes justify-content-around">
-                        <div class="prayerCard" id="subh"><p>Fajr</p><p></p></div>
-                        <div class="prayerCard" id="zohr"><p>Sunrise</p><p></p></div>
-                        <div class="prayerCard" id="esr"><p>Dhuhr</p><p></p></div>
-                        <div class="prayerCard" id="sam"><p>Asr</p><p></p></div>
+                        <div class="prayerCard" id="subh">
+                            <p>Fajr</p>
+                            <p></p>
+                        </div>
+                        <div class="prayerCard" id="zohr">
+                            <p>Sunrise</p>
+                            <p></p>
+                        </div>
+                        <div class="prayerCard" id="esr">
+                            <p>Dhuhr</p>
+                            <p></p>
+                        </div>
+                        <div class="prayerCard" id="sam">
+                            <p>Asr</p>
+                            <p></p>
+                        </div>
                         <div class="prayerCard" id="isa">
                             <p>Maghrib</p>
                             <p></p>
