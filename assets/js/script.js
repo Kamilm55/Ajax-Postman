@@ -20,9 +20,9 @@ $(document).ready(function () {
                     $(".adate").text(element.timings.Asr.slice(0, 6));
                     $(".mdate").text(element.timings.Maghrib.slice(0, 6));
                     $(".idate").text(element.timings.Isha.slice(0, 6));
-                    console.log(timezone[1]);
 
-                    abc(element, localday, localmonth, localyear);
+
+                    abc(element, localday, localmonth, localyear, 0);
 
 
 
@@ -115,20 +115,18 @@ $(document).ready(function () {
                         $(".adate").text(element.timings.Asr.slice(0, 6));
                         $(".mdate").text(element.timings.Maghrib.slice(0, 6));
                         $(".idate").text(element.timings.Isha.slice(0, 6));
+                        abc(element, localday, localmonth, localyear, 1);
                     }
-                    console.log("salam");
-                    abc(element, localday, localmonth, localyear, 1);
-
-
-
-
 
 
                 });
 
+
             }
         });
     }
+
+
 
     function abc(element, localday, localmonth, localyear, num = 0) {
         if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Isha.slice(0, 5)}:00`)) - new Date() < 0) {
@@ -140,19 +138,19 @@ $(document).ready(function () {
         else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Maghrib.slice(0, 5)}:00`)) - new Date() < 0) {
             var countDownDate = new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Isha.slice(0, 5)}:00`);
             $("#prayerTimeName").text('Isha');
-            Counter(countDownDate);
+            Counter(countDownDate, num);
 
         }
         else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Asr.slice(0, 5)}:00`)) - new Date() < 0) {
             var countDownDate = new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Maghrib.slice(0, 5)}:00`);
             $("#prayerTimeName").text('Maghrib');
-            Counter(countDownDate);
+            Counter(countDownDate, num);
 
         }
         else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Dhuhr.slice(0, 5)}:00`)) - new Date() < 0) {
             var countDownDate = new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Asr.slice(0, 5)}:00`);
             $("#prayerTimeName").text('Asr');
-            Counter(countDownDate);
+            Counter(countDownDate, num);
 
         }
         else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Fajr.slice(0, 5)}:00`)) - new Date() < 0) {
@@ -176,6 +174,8 @@ $(document).ready(function () {
     function Counter(countDownDate, num) {
 
 
+        console.log(num);
+
 
         let myInterval = setInterval(function () {
 
@@ -197,24 +197,63 @@ $(document).ready(function () {
             }
             document.getElementById("neqederqalib").innerHTML = (hours + " : " + minutes + " : " + seconds);
 
+            if (num == 1) {
+                clearInterval(myInterval);
+                myInterval = setInterval(function () {
 
-         
+
+                    var now = new Date().getTime();
+                    var distance = countDownDate - now;
+
+                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    if (minutes < 10) {
+                        minutes = "0" + minutes;
+                    }
+                    if (hours < 10) {
+                        hours = "0" + hours;
+                    }
+                    if (seconds < 10) {
+                        seconds = "0" + seconds;
+                    }
+                    document.getElementById("neqederqalib").innerHTML = (hours + " : " + minutes + " : " + seconds);
+                })
+            }
 
 
 
         }, 1000);
 
 
+        if (num == 1) {
+
+            let myInterval = setInterval(function () {
 
 
+                var now = new Date().getTime();
+                var distance = countDownDate - now;
+
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                if (minutes < 10) {
+                    minutes = "0" + minutes;
+                }
+                if (hours < 10) {
+                    hours = "0" + hours;
+                }
+                if (seconds < 10) {
+                    seconds = "0" + seconds;
+                }
+                document.getElementById("neqederqalib").innerHTML = (hours + " : " + minutes + " : " + seconds);
 
 
-
-
-
-
+            }, 1000);
+        }
 
     }
+
 
 
 
