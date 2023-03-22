@@ -1,6 +1,6 @@
 $(document).ready(function () {
     const timezone = (Intl.DateTimeFormat().resolvedOptions().timeZone).split("/");
-    console.log(timezone[1]);
+
     let localdate = new Date().toLocaleString().split(",");
     let localmonth = localdate[0].split("/")[0];
     let localday = localdate[0].split("/")[1];
@@ -20,12 +20,12 @@ $(document).ready(function () {
                     $(".adate").text(element.timings.Asr.slice(0, 6));
                     $(".mdate").text(element.timings.Maghrib.slice(0, 6));
                     $(".idate").text(element.timings.Isha.slice(0, 6));
+                    console.log(timezone[1]);
+
+                    abc(element, localday, localmonth, localyear);
 
 
-                    abc(element,localday,localmonth,localyear);
-                    
-                    
-                    
+
                 }
 
                 let tr =
@@ -49,6 +49,7 @@ $(document).ready(function () {
 
     $("button").click(function (e) {
         e.preventDefault();
+
         let month = (new Date($("#date").val()).getMonth()) + 1;
         let year = new Date($("#date").val()).getFullYear();
         let city = $("#city").val();
@@ -58,7 +59,7 @@ $(document).ready(function () {
             success: function (data) {
                 $("tbody").html("");
                 localTime(city);
-                
+
                 $("h3").text(`Prayer Times in ${city.charAt(0).toUpperCase() + city.slice(1)}`);
                 data.data.forEach(element => {
 
@@ -116,9 +117,9 @@ $(document).ready(function () {
                         $(".idate").text(element.timings.Isha.slice(0, 6));
                     }
                     console.log("salam");
-                    abc(element,localday,localmonth,localyear, 1);
-                    
-                    
+                    abc(element, localday, localmonth, localyear, 1);
+
+
 
 
 
@@ -128,87 +129,87 @@ $(document).ready(function () {
             }
         });
     }
-    
-    function abc(element,localday,localmonth,localyear, num = 0){
+
+    function abc(element, localday, localmonth, localyear, num = 0) {
         if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Isha.slice(0, 5)}:00`)) - new Date() < 0) {
             var countDownDate = new Date(`${localmonth}/${Number(localday) + 1}/${localyear} ${element.timings.Fajr.slice(0, 5)}:00`);
-            console.log(countDownDate);
             $("#prayerTimeName").text('Fajr');
             Counter(countDownDate, num);
 
         }
-        else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Maghrib.slice(0, 5)}:00`)) - new Date() < 0){
+        else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Maghrib.slice(0, 5)}:00`)) - new Date() < 0) {
             var countDownDate = new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Isha.slice(0, 5)}:00`);
-            console.log(countDownDate);
             $("#prayerTimeName").text('Isha');
             Counter(countDownDate);
 
         }
-        else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Asr.slice(0, 5)}:00`)) - new Date() < 0){
+        else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Asr.slice(0, 5)}:00`)) - new Date() < 0) {
             var countDownDate = new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Maghrib.slice(0, 5)}:00`);
-            console.log(countDownDate);
             $("#prayerTimeName").text('Maghrib');
             Counter(countDownDate);
 
         }
-        else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Dhuhr.slice(0, 5)}:00`)) - new Date() < 0){
+        else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Dhuhr.slice(0, 5)}:00`)) - new Date() < 0) {
             var countDownDate = new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Asr.slice(0, 5)}:00`);
-            console.log(countDownDate);
             $("#prayerTimeName").text('Asr');
             Counter(countDownDate);
 
         }
-        else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Fajr.slice(0, 5)}:00`)) - new Date() < 0){
+        else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Fajr.slice(0, 5)}:00`)) - new Date() < 0) {
             var countDownDate = new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Dhuhr.slice(0, 5)}:00`);
-            console.log(countDownDate);
             $("#prayerTimeName").text('Dhuhr');
-            Counter(countDownDate);
+            console.log(num);
+            Counter(countDownDate, num);
 
         }
-        else{
+        else {
             var countDownDate = new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Fajr.slice(0, 5)}:00`);
             console.log(countDownDate);
             $("#prayerTimeName").text('Fajr');
             console.log(num);
             Counter(countDownDate, num);
-            
+
+
         }
     }
 
-    function Counter(countDownDate, num = 0) {
+    function Counter(countDownDate, num) {
 
 
-        
-        if (num == 0) {
-            var x = setInterval(function () {
 
-                var now = new Date().getTime();
-                var distance = countDownDate - now;
-
-                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                if (minutes < 10) {
-                    minutes = "0" + minutes;
-                }
-                if (hours < 10) {
-                    hours = "0" + hours;
-                }
-                if (seconds < 10) {
-                    seconds = "0" + seconds;
-                }
+        let myInterval = setInterval(function () {
 
 
-                document.getElementById("neqederqalib").innerHTML = (hours + " : " + minutes + " : " + seconds);
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
+
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+            if (hours < 10) {
+                hours = "0" + hours;
+            }
+            if (seconds < 10) {
+                seconds = "0" + seconds;
+            }
+            document.getElementById("neqederqalib").innerHTML = (hours + " : " + minutes + " : " + seconds);
 
 
-            }, 1000);
-        }
+            clearInterval(myInterval);
 
-        if (num == 1){
-            clearInterval(x);
-            console.log("15151");
-        }
+
+
+        }, 1000);
+
+
+
+
+
+
+
 
 
 
