@@ -198,7 +198,7 @@ $(document).ready(function () {
             document.getElementById("neqederqalib").innerHTML = (hours + " : " + minutes + " : " + seconds);
 
 
-            clearInterval(myInterval);
+         
 
 
 
