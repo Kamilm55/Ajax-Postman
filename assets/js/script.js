@@ -20,9 +20,9 @@ $(document).ready(function () {
                     $(".adate").text(element.timings.Asr.slice(0, 6));
                     $(".mdate").text(element.timings.Maghrib.slice(0, 6));
                     $(".idate").text(element.timings.Isha.slice(0, 6));
+                    
 
-
-                    abc(element, localday, localmonth, localyear, 0);
+                    abc(element, localday, localmonth, localyear,0);
 
 
 
@@ -50,6 +50,20 @@ $(document).ready(function () {
     $("button").click(function (e) {
         e.preventDefault();
 
+        if ($("#date").val() == '') {
+            $("#date").addClass("redborder")
+        }
+        else{
+            $("#date").removeClass("redborder")
+        }
+        if ($("#city").val() == '') {
+            $("#city").addClass("redborder")
+        }
+        else{
+            $("#city").removeClass("redborder")
+        }
+
+        
         let month = (new Date($("#date").val()).getMonth()) + 1;
         let year = new Date($("#date").val()).getFullYear();
         let city = $("#city").val();
@@ -120,7 +134,7 @@ $(document).ready(function () {
 
 
                 });
-
+                
 
             }
         });
@@ -172,13 +186,11 @@ $(document).ready(function () {
     }
 
     function Counter(countDownDate, num) {
+        let myInterval = null;
+        
+        
 
-
-        console.log(num);
-
-
-        let myInterval = setInterval(function () {
-
+        myInterval = setInterval(function () {
 
             var now = new Date().getTime();
             var distance = countDownDate - now;
@@ -196,64 +208,19 @@ $(document).ready(function () {
                 seconds = "0" + seconds;
             }
             document.getElementById("neqederqalib").innerHTML = (hours + " : " + minutes + " : " + seconds);
-
-            if (num == 1) {
-                clearInterval(myInterval);
-                myInterval = setInterval(function () {
-
-
-                    var now = new Date().getTime();
-                    var distance = countDownDate - now;
-
-                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                    if (minutes < 10) {
-                        minutes = "0" + minutes;
-                    }
-                    if (hours < 10) {
-                        hours = "0" + hours;
-                    }
-                    if (seconds < 10) {
-                        seconds = "0" + seconds;
-                    }
-                    document.getElementById("neqederqalib").innerHTML = (hours + " : " + minutes + " : " + seconds);
-                })
-            }
-
-
+            
 
         }, 1000);
-
-
+        
         if (num == 1) {
-
-            let myInterval = setInterval(function () {
-
-
-                var now = new Date().getTime();
-                var distance = countDownDate - now;
-
-                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                if (minutes < 10) {
-                    minutes = "0" + minutes;
-                }
-                if (hours < 10) {
-                    hours = "0" + hours;
-                }
-                if (seconds < 10) {
-                    seconds = "0" + seconds;
-                }
-                document.getElementById("neqederqalib").innerHTML = (hours + " : " + minutes + " : " + seconds);
-
-
-            }, 1000);
+            clearInterval(myInterval);
         }
-
+       
+       
+        
     }
 
+        
 
 
 
