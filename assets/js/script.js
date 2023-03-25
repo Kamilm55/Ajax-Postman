@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function() {
     const timezone = (Intl.DateTimeFormat().resolvedOptions().timeZone).split("/");
 
     let localdate = new Date().toLocaleString().split(",");
@@ -8,7 +8,7 @@ $(document).ready(function () {
     $.ajax({
         url: `https://api.aladhan.com/v1/calendarByAddress/${localyear}/${localmonth}?address=${timezone[1]}&method=2`,
         method: "get",
-        success: function (data) {
+        success: function(data) {
             data.data.forEach(element => {
                 $(".todayDate").text(`${Number(localday) + 1}/${localmonth}/${localyear}`)
                 $("h3").text(`Prayer Times in ${timezone[1]}`);
@@ -20,9 +20,9 @@ $(document).ready(function () {
                     $(".adate").text(element.timings.Asr.slice(0, 6));
                     $(".mdate").text(element.timings.Maghrib.slice(0, 6));
                     $(".idate").text(element.timings.Isha.slice(0, 6));
-                    
 
-                    abc(element, localday, localmonth, localyear,0);
+
+                    abc(element, localday, localmonth, localyear, 0);
 
 
 
@@ -47,30 +47,28 @@ $(document).ready(function () {
         }
     });
 
-    $("button").click(function (e) {
+    $("button").click(function(e) {
         e.preventDefault();
 
         if ($("#date").val() == '') {
             $("#date").addClass("redborder")
-        }
-        else{
+        } else {
             $("#date").removeClass("redborder")
         }
         if ($("#city").val() == '') {
             $("#city").addClass("redborder")
-        }
-        else{
+        } else {
             $("#city").removeClass("redborder")
         }
 
-        
+
         let month = (new Date($("#date").val()).getMonth()) + 1;
         let year = new Date($("#date").val()).getFullYear();
         let city = $("#city").val();
         $.ajax({
             url: `https://api.aladhan.com/v1/calendarByAddress/${year}/${month}?address=${city}&method=2`,
             method: "get",
-            success: function (data) {
+            success: function(data) {
                 $("tbody").html("");
                 localTime(city);
 
@@ -117,7 +115,7 @@ $(document).ready(function () {
         $.ajax({
             url: `https://api.aladhan.com/v1/calendarByAddress/${localyear}/${localmonth}?address=${city}&method=2`,
             method: "get",
-            success: function (data) {
+            success: function(data) {
                 data.data.forEach(element => {
 
 
@@ -134,7 +132,7 @@ $(document).ready(function () {
 
 
                 });
-                
+
 
             }
         });
@@ -148,33 +146,29 @@ $(document).ready(function () {
             $("#prayerTimeName").text('Fajr');
             Counter(countDownDate, num);
 
-        }
-        else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Maghrib.slice(0, 5)}:00`)) - new Date() < 0) {
+        } else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Maghrib.slice(0, 5)}:00`)) - new Date() < 0) {
             var countDownDate = new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Isha.slice(0, 5)}:00`);
             $("#prayerTimeName").text('Isha');
             Counter(countDownDate, num);
 
-        }
-        else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Asr.slice(0, 5)}:00`)) - new Date() < 0) {
+        } else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Asr.slice(0, 5)}:00`)) - new Date() < 0) {
             var countDownDate = new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Maghrib.slice(0, 5)}:00`);
             $("#prayerTimeName").text('Maghrib');
             Counter(countDownDate, num);
 
-        }
-        else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Dhuhr.slice(0, 5)}:00`)) - new Date() < 0) {
+        } else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Dhuhr.slice(0, 5)}:00`)) - new Date() < 0) {
             var countDownDate = new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Asr.slice(0, 5)}:00`);
             $("#prayerTimeName").text('Asr');
             Counter(countDownDate, num);
 
-        }
-        else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Fajr.slice(0, 5)}:00`)) - new Date() < 0) {
+        } else if ((new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Fajr.slice(0, 5)}:00`)) - new Date() < 0) {
             var countDownDate = new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Dhuhr.slice(0, 5)}:00`);
             $("#prayerTimeName").text('Dhuhr');
+            console.log(countDownDate);
             console.log(num);
             Counter(countDownDate, num);
 
-        }
-        else {
+        } else {
             var countDownDate = new Date(`${localmonth}/${Number(localday)}/${localyear} ${element.timings.Fajr.slice(0, 5)}:00`);
             console.log(countDownDate);
             $("#prayerTimeName").text('Fajr');
@@ -184,14 +178,13 @@ $(document).ready(function () {
 
         }
     }
+    let myInterval = null; // Declare the interval ID outside the function
 
     function Counter(countDownDate, num) {
-        let myInterval = null;
-        
-        
+        // Clear the previous interval before starting a new one
+        clearInterval(myInterval);
 
-        myInterval = setInterval(function () {
-
+        myInterval = setInterval(function() {
             var now = new Date().getTime();
             var distance = countDownDate - now;
 
@@ -207,20 +200,51 @@ $(document).ready(function () {
             if (seconds < 10) {
                 seconds = "0" + seconds;
             }
+
+
             document.getElementById("neqederqalib").innerHTML = (hours + " : " + minutes + " : " + seconds);
-            
 
         }, 1000);
-        
-        if (num == 1) {
-            clearInterval(myInterval);
-        }
-       
-       
-        
+
+
     }
 
-        
+    // function Counter(countDownDate, num) {
+    //     let myInterval = null;
+
+
+
+    //     myInterval = setInterval(function() {
+
+    //         var now = new Date().getTime();
+    //         var distance = countDownDate - now;
+
+    //         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    //         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    //         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    //         if (minutes < 10) {
+    //             minutes = "0" + minutes;
+    //         }
+    //         if (hours < 10) {
+    //             hours = "0" + hours;
+    //         }
+    //         if (seconds < 10) {
+    //             seconds = "0" + seconds;
+    //         }
+    //         document.getElementById("neqederqalib").innerHTML = (hours + " : " + minutes + " : " + seconds);
+
+
+    //     }, 1000);
+
+    //     if (num == 1) {
+    //         clearInterval(myInterval);
+    //     }
+
+
+
+    // }
+
+
 
 
 
